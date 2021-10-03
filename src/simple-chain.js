@@ -5,24 +5,43 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default {
+  str: '',
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.str.split('~~').length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink( value ) {
+    if ( arguments.length === 0 ) { value = ''; }
+    if (value === null) {value = 'null'};
+    if ( this.str ) {
+       this.str = `${this.str}~~( ${value.toString()} )`;
+    } else {
+       this.str = `( ${value.toString()} )`;
+    }
+   return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink( position ) {
+    let arr = [];
+    arr = this.str.split('~~');
+    if ( (typeof position === 'number') && ((position - 1) < arr.length) && ((position - 1) >=0) && ((position ^ 0) === position) ) {
+   
+    arr.splice((position -1),1);
+    this.str = arr.join('~~');    
+
+   }else {
+   this.str = '';
+   throw new Error('You can\'t remove incorrect link!');
+
+  }
+    return this;
   },
   reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+    this.str = this.str.split('~~').reverse().join('~~');
+    return this;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    const strResult = this.str;
+    this.str = '';
+    return strResult;
   }
 };
